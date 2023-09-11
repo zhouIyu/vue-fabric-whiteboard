@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'iconfont'; /* Project id 3443895 */
+  src: url('iconfont.eot?t=1694400168066'); /* IE9 */
+  src:
+    url('iconfont.eot?t=1694400168066#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */ url('iconfont.woff2?t=1694400168066') format('woff2'),
+    url('iconfont.woff?t=1694400168066') format('woff'),
+    url('iconfont.ttf?t=1694400168066') format('truetype');
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-rect:before {
+  content: '\e720';
+}
+
+.icon-circle:before {
+  content: '\e676';
+}
+
+.icon-clear:before {
+  content: '\e62b';
+}
+
+.icon-earse:before {
+  content: '\e609';
+}
+
+.icon-ellipse:before {
+  content: '\e790';
+}
+
+.icon-select:before {
+  content: '\e797';
+}
+
+.icon-triangle:before {
+  content: '\e70f';
+}
+
+.icon-arrow:before {
+  content: '\eb6b';
+}
+
+.icon-undo:before {
+  content: '\e611';
+}
+
+.icon-redo:before {
+  content: '\e613';
+}
+
+.icon-line:before {
+  content: '\e6bb';
+}
+
+.icon-path:before {
+  content: '\e647';
+}

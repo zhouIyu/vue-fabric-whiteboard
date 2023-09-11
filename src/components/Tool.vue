@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { defineComponent, ref } from 'vue'
 import { EType } from '@/core/index'
+import IconVue from './Icon.vue'
 
 defineComponent({
   name: 'ToolContainer'
@@ -17,14 +18,14 @@ const setType = function (type: string) {
 <template>
   <div class="tool-container">
     <div class="tool-item" v-for="item in toolList" :key="item" @click="setType(item)">
-      {{ item }}
+      <IconVue :iconName="item" />
     </div>
   </div>
 </template>
 <style scoped lang="scss">
 .tool {
   &-container {
-    width: 80px;
+    width: 60px;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
@@ -37,9 +38,13 @@ const setType = function (type: string) {
   &-item {
     margin-bottom: 10px;
     cursor: pointer;
+    text-align: center;
 
     &:hover {
       color: #409eff;
+    }
+    .icon {
+      font-size: 30px;
     }
   }
 }
