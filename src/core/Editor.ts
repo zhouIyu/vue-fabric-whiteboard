@@ -1,22 +1,28 @@
 import { fabric } from 'fabric'
-import { EType } from './enum'
-
-type IType = `${EType}`
+import { ECanvasEvent, EEvent, EType } from './enum'
+import mitt from 'mitt'
+import type { EventBus, IType, IEEvent } from './types'
 
 class Editor {
-  canvas: fabric.Canvas
+  canvas!: fabric.Canvas
   type: IType | string = EType.SELECT
   isMouseDown: boolean = false
   mouseDownPoint: fabric.Point | null = null
   activeObject: fabric.Object | null = null
   strokeColor: string = '#f00'
   strokeWidth: number = 2
+  eventBus = mitt<IEEvent>()
 
-  constructor(id: string) {
-    if (!id) throw new Error('id is required')
-
-    this.canvas = this.createCanvas(id)
+  init(canvasId: string) {
+    if (!canvasId) {
+      throw new Error('canvasId is required')
+    }
+    this.canvas = this.createCanvas(canvasId)
     this.addListener()
+  }
+
+  getEventBus(): EventBus {
+    return this.eventBus
   }
 
   _mouseDownHandler(e: fabric.IEvent) {
@@ -69,26 +75,25 @@ class Editor {
     this.activeObject?.setOptions({
       my_id: 1
     })
-    console.log(this.activeObject)
     this.canvas.renderAll()
   }
 
   _mouseUpHandler() {
     this.isMouseDown = false
     if (this.type !== EType.SELECT) {
-      this.type = EType.SELECT
-      this.canvas.selection = true
+      this.setType(EType.SELECT)
       this.canvas.setActiveObject(this.activeObject!)
       this.canvas.drawControls(this.canvas.getContext())
+      this.eventBus.emit(EEvent.CHANGE_TYPE, EType.SELECT)
     }
   }
 
   addListener() {
-    this.canvas.on('mouse:down', this._mouseDownHandler.bind(this))
+    this.canvas.on(ECanvasEvent.MOUSE_DOWN, this._mouseDownHandler.bind(this))
 
-    this.canvas.on('mouse:move', this._mouseMoveHandler.bind(this))
+    this.canvas.on(ECanvasEvent.MOUSE_MOVE, this._mouseMoveHandler.bind(this))
 
-    this.canvas.on('mouse:up', this._mouseUpHandler.bind(this))
+    this.canvas.on(ECanvasEvent.MOUSE_UP, this._mouseUpHandler.bind(this))
   }
 
   createCanvas(id: string) {
@@ -123,7 +128,6 @@ class Editor {
   }
 
   rectGraph(): fabric.Rect {
-    console.log(this)
     const { x, y } = this.mouseDownPoint!
     return new fabric.Rect({
       left: x,

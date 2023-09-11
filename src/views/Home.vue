@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, provide } from 'vue'
 import ToolContainer from '@/components/Tool.vue'
 
 defineComponent({
@@ -8,19 +8,17 @@ defineComponent({
 
 import Editor from '@/core/index'
 
-const editor = ref<Editor>()
+const editor = new Editor()
 
 onMounted(() => {
-  editor.value = new Editor('canvas')
+  editor.init('canvas')
 })
 
-const setType = function (type: string) {
-  editor.value?.setType(type)
-}
+provide('editor', editor)
 </script>
 <template>
   <div class="wrapper">
-    <ToolContainer @set-type="setType" />
+    <ToolContainer />
     <div class="canvas-box">
       <canvas id="canvas"></canvas>
     </div>
@@ -37,3 +35,4 @@ const setType = function (type: string) {
   }
 }
 </style>
+@/core/types

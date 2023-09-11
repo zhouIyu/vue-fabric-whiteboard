@@ -17,6 +17,7 @@ specifiers:
   fabric: ^5.3.0
   git-cz: ^4.9.0
   husky: ^8.0.3
+  mitt: ^3.0.1
   npm-run-all: ^4.1.5
   prettier: ^3.0.0
   sass: ^1.66.1
@@ -27,6 +28,7 @@ specifiers:
 
 dependencies:
   fabric: 5.3.0
+  mitt: 3.0.1
   vue: 3.3.4
 
 devDependencies:
@@ -3161,6 +3163,10 @@ packages:
       yallist: 4.0.0
     dev: false
     optional: true
+
+  /mitt/3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
+    dev: false
 
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}

@@ -1,25 +1,37 @@
 <script lang="ts" setup>
-import { defineComponent, ref } from 'vue'
-import { EType } from '@/core/index'
+import { defineComponent, inject, onMounted, ref } from 'vue'
+import Editor, { EType, EEvent } from '@/core/index'
 import IconVue from './Icon.vue'
 
 defineComponent({
   name: 'ToolContainer'
 })
 
-const emit = defineEmits(['setType'])
+const editor = inject<Editor>('editor')
 
 const toolList = ref<string[]>([...Object.values(EType)])
 
+const currentType = ref<string>(EType.SELECT)
+
+onMounted(() => {
+  const eventBus = editor?.getEventBus()
+  eventBus?.on(EEvent.CHANGE_TYPE, (type: string) => {
+    currentType.value = type
+  })
+})
+
 const setType = function (type: string) {
-  emit('setType', type)
+  currentType.value = type
+  editor?.setType(type)
 }
 </script>
 <template>
   <div class="tool-container">
-    <div class="tool-item" v-for="item in toolList" :key="item" @click="setType(item)">
-      <IconVue :iconName="item" />
-    </div>
+    <template v-for="item in toolList" :key="item">
+      <div class="tool-item" :class="{ active: item === currentType }" @click="setType(item)">
+        <IconVue :iconName="item" />
+      </div>
+    </template>
   </div>
 </template>
 <style scoped lang="scss">
@@ -43,6 +55,11 @@ const setType = function (type: string) {
     &:hover {
       color: #409eff;
     }
+
+    &.active {
+      color: #409eff;
+    }
+
     .icon {
       font-size: 30px;
     }
