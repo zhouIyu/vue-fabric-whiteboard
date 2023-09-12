@@ -1,6 +1,7 @@
 import { ECanvasEvent, EEvent } from '.'
 import Editor from './Editor'
 import { fabric } from 'fabric'
+import { eventBus } from './utils/eventBus'
 
 class History {
   private editor: Editor
@@ -38,7 +39,6 @@ class History {
   }
 
   private setType() {
-    const { eventBus } = this.editor
     let isUndo: boolean = this.isCanUndo
     if (!this.isCanUndo && this.undoStack.length > 0) {
       isUndo = true

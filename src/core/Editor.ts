@@ -1,7 +1,6 @@
 import { fabric } from 'fabric'
 import { EType } from './enum'
-import mitt from 'mitt'
-import type { IType, IEEvent, EventBus } from './types.d'
+import type { IType } from './types.d'
 import Graph from './Graph'
 import History from './History'
 
@@ -10,7 +9,6 @@ class Editor {
   private type: IType | string = EType.SELECT
   private graph!: Graph
   history!: History
-  eventBus = mitt<IEEvent>()
 
   init(canvasId: string) {
     if (!canvasId) {
@@ -19,10 +17,6 @@ class Editor {
     this.canvas = this.createCanvas(canvasId)
     this.graph = new Graph(this, this.canvas)
     this.history = new History(this, this.canvas)
-  }
-
-  getEventBus(): EventBus {
-    return this.eventBus
   }
 
   private createCanvas(id: string) {

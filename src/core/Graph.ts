@@ -1,6 +1,7 @@
 import { fabric } from 'fabric'
 import Editor, { ECanvasEvent, EEvent, EType } from '.'
 import type { IType } from './types'
+import { eventBus } from './utils/eventBus'
 
 type GraphType = Omit<IType, EType.SELECT>
 
@@ -95,7 +96,7 @@ class Graph {
       editor.setType(EType.SELECT)
       canvas.setActiveObject(this.activeObject!)
       canvas.drawControls(this.canvas.getContext())
-      editor.eventBus.emit(EEvent.CHANGE_GRAPH_TYPE, EType.SELECT)
+      eventBus.emit(EEvent.CHANGE_GRAPH_TYPE, EType.SELECT)
       this.setType('')
     }
   }

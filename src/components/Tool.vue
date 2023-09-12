@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineComponent, inject, onMounted, reactive, ref } from 'vue'
-import Editor, { EType, EEvent } from '@/core/index'
+import Editor, { EType, EEvent, eventBus } from '@/core/index'
 import IconVue from './Icon.vue'
 
 defineComponent({
@@ -24,7 +24,6 @@ const isCanUndo = ref<boolean>(false)
 const isCanRedo = ref<boolean>(false)
 
 onMounted(() => {
-  const eventBus = editor?.getEventBus()
   eventBus?.on(EEvent.CHANGE_GRAPH_TYPE, (type: string) => {
     currentType.value = type
   })
