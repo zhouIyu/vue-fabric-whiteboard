@@ -16,5 +16,5 @@ export enum ECanvasEvent {
 
 // 向外暴露事件
 export enum EEvent {
-  CHANGE_TYPE = 'change:type'
+  CHANGE_TYPE = 'o_change:type'
 }

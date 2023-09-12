@@ -1,10 +1,10 @@
 import { EType, EEvent } from './enum'
 import type { Emitter } from 'mitt'
 
-export type IType = `${EType}`
+declare type IType = `${EType}`
 
-export type IEEvent = {
+declare type IEEvent = {
   [EEvent.CHANGE_TYPE]: IType | string
 }
 
-export type EventBus = Emitter<IEEvent>
+declare type EventBus = Emitter<IEEvent>

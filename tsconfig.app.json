@@ -4,7 +4,8 @@
     "env.d.ts", 
     "src/**/*", 
     "src/**/*.vue",
-    "src/**/*.ts", "src/assets/f, "public/font"ont", "src/assets/font",
+    "src/**/*.ts",
+    "src/**/*.d.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
