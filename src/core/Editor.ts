@@ -3,11 +3,13 @@ import { EType } from './enum'
 import mitt from 'mitt'
 import type { IType, IEEvent, EventBus } from './types.d'
 import Graph from './Graph'
+import History from './History'
 
 class Editor {
-  canvas!: fabric.Canvas
-  type: IType | string = EType.SELECT
-  graph!: Graph
+  private canvas!: fabric.Canvas
+  private type: IType | string = EType.SELECT
+  private graph!: Graph
+  history!: History
   eventBus = mitt<IEEvent>()
 
   init(canvasId: string) {
@@ -16,13 +18,14 @@ class Editor {
     }
     this.canvas = this.createCanvas(canvasId)
     this.graph = new Graph(this, this.canvas)
+    this.history = new History(this, this.canvas)
   }
 
   getEventBus(): EventBus {
     return this.eventBus
   }
 
-  createCanvas(id: string) {
+  private createCanvas(id: string) {
     const elem = document.getElementById(id)
     const parentElem = elem?.parentElement
     const width = parentElem?.clientWidth || 800

@@ -10,35 +10,35 @@ type GraphOptions = {
 }
 
 class Graph {
-  editor: Editor
-  canvas: fabric.Canvas
-  type: GraphType = ''
-  isMouseDown: boolean = false
-  mouseDownPoint: fabric.Point | null = null
-  activeObject: fabric.Object | null = null
-  options: GraphOptions = {
+  private editor: Editor
+  private canvas: fabric.Canvas
+  private type: GraphType = ''
+  private isMouseDown: boolean = false
+  private mouseDownPoint: fabric.Point | null = null
+  private activeObject: fabric.Object | null = null
+  private options: GraphOptions = {
     strokeColor: '#f00',
     strokeWidth: 2
   }
   constructor(editor: Editor, canvas: fabric.Canvas) {
     this.canvas = canvas
     this.editor = editor
-    this.addListener()
+    this.init()
   }
 
-  addListener() {
-    this.canvas.on(ECanvasEvent.MOUSE_DOWN, this._mouseDownHandler.bind(this))
+  private init() {
+    this.canvas.on(ECanvasEvent.MOUSE_DOWN, this.mouseDownHandler.bind(this))
 
-    this.canvas.on(ECanvasEvent.MOUSE_MOVE, this._mouseMoveHandler.bind(this))
+    this.canvas.on(ECanvasEvent.MOUSE_MOVE, this.mouseMoveHandler.bind(this))
 
-    this.canvas.on(ECanvasEvent.MOUSE_UP, this._mouseUpHandler.bind(this))
+    this.canvas.on(ECanvasEvent.MOUSE_UP, this.mouseUpHandler.bind(this))
   }
 
   setType(type: GraphType) {
     this.type = type
   }
 
-  _mouseDownHandler(e: fabric.IEvent) {
+  private mouseDownHandler(e: fabric.IEvent) {
     if (this.type !== '') {
       this.isMouseDown = true
       this.mouseDownPoint = e.pointer!
@@ -46,7 +46,7 @@ class Graph {
     }
   }
 
-  _mouseMoveHandler(e: fabric.IEvent) {
+  private mouseMoveHandler(e: fabric.IEvent) {
     if (!this.isMouseDown) {
       return false
     }
@@ -85,34 +85,34 @@ class Graph {
         height: Math.abs(dy)
       })
     }
-    this.activeObject?.setOptions({
-      my_id: 1
-    })
     this.canvas.renderAll()
   }
 
-  _mouseUpHandler() {
+  private mouseUpHandler() {
     this.isMouseDown = false
     if (this.type !== '') {
       const { canvas, editor } = this
       editor.setType(EType.SELECT)
       canvas.setActiveObject(this.activeObject!)
       canvas.drawControls(this.canvas.getContext())
-      editor.eventBus.emit(EEvent.CHANGE_TYPE, EType.SELECT)
+      editor.eventBus.emit(EEvent.CHANGE_GRAPH_TYPE, EType.SELECT)
       this.setType('')
     }
   }
 
-  createGraph() {
+  private createGraph() {
     const funcName = `${this.type}Graph` as keyof this
     const func = this[funcName] as () => fabric.Object
     const graph: fabric.Object = func.bind(this)()
     graph?.setCoords(true)
+    graph.setOptions({
+      myId: Date.now()
+    })
     this.activeObject = graph
     this.canvas.add(graph!)
   }
 
-  rectGraph(): fabric.Rect {
+  private rectGraph(): fabric.Rect {
     const { x, y } = this.mouseDownPoint!
     const { strokeColor, strokeWidth } = this.options
     return new fabric.Rect({
@@ -125,7 +125,7 @@ class Graph {
     })
   }
 
-  triangleGraph(): fabric.Triangle {
+  private triangleGraph(): fabric.Triangle {
     const { x, y } = this.mouseDownPoint!
     const { strokeColor, strokeWidth } = this.options
     return new fabric.Triangle({
@@ -138,7 +138,7 @@ class Graph {
     })
   }
 
-  circleGraph(): fabric.Circle {
+  private circleGraph(): fabric.Circle {
     const { x, y } = this.mouseDownPoint!
     const { strokeColor, strokeWidth } = this.options
     return new fabric.Circle({
@@ -153,7 +153,7 @@ class Graph {
   }
 
   // 椭圆
-  ellipseGraph(): fabric.Ellipse {
+  private ellipseGraph(): fabric.Ellipse {
     const { x, y } = this.mouseDownPoint!
     const { strokeColor, strokeWidth } = this.options
     return new fabric.Ellipse({
